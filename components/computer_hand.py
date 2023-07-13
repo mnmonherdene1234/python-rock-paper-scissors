@@ -5,8 +5,8 @@ from components.image import Image
 
 class ComputerHand(Image):
 
-    def __init__(self, screen: Surface | SurfaceType, image_path: str, x: int, y: int, w: int, h: int):
-        super().__init__(screen, image_path, x, y, w, h)
+    def __init__(self, screen: Surface | SurfaceType, image: Surface | SurfaceType, x: int, y: int, w: int, h: int):
+        super().__init__(screen, image, x, y, w, h)
         self.__is_moving = False
         self.__is_moving_back = False
         self.__initial_y = y

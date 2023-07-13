@@ -8,6 +8,8 @@ from components.background_image import BackgroundImage
 from components.button import Button
 from components.computer_hand import ComputerHand
 from scenes.scene_base import SceneBase
+from assets.images import background_image, rock_button_image, paper_button_image, scissors_button_image, \
+    hand_paper_image, hand_scissors_image, hand_rock_image
 
 
 class GameSelect(Enum):
@@ -21,34 +23,34 @@ class GameScene(SceneBase):
         super().__init__(screen)
         self.is_selected = False
 
-        background_image = BackgroundImage(screen, "assets/images/background.png")
-        self.components.append(background_image)
+        background = BackgroundImage(screen, background_image)
+        self.components.append(background)
 
         button_size = 100
         buttons_x_position = 150
         buttons_y_position = 470
 
-        rock_button = Button(screen, "assets/images/rock-button.png", buttons_x_position, buttons_y_position,
-                             button_size, button_size)
+        rock_button = Button(screen, rock_button_image, buttons_x_position, buttons_y_position, button_size,
+                             button_size)
         rock_button.on_click = lambda: self.click_button(GameSelect.Rock)
         self.components.append(rock_button)
-        paper_button = Button(screen, "assets/images/paper-button.png", buttons_x_position + button_size,
-                              buttons_y_position, button_size, button_size)
+        paper_button = Button(screen, paper_button_image, buttons_x_position + button_size, buttons_y_position,
+                              button_size, button_size)
         paper_button.on_click = lambda: self.click_button(GameSelect.Paper)
         self.components.append(paper_button)
-        scissors = Button(screen, "assets/images/scissors-button.png", buttons_x_position + button_size * 2,
-                          buttons_y_position, button_size, button_size)
+        scissors = Button(screen, scissors_button_image, buttons_x_position + button_size * 2, buttons_y_position,
+                          button_size, button_size)
         scissors.on_click = lambda: self.click_button(GameSelect.Scissors)
         self.components.append(scissors)
 
-        self.hand_rock = ComputerHand(screen, "assets/images/hand-rock.png", 200, -500, 240, 500)
+        self.hand_rock = ComputerHand(screen, hand_rock_image, 200, -500, 240, 500)
         self.components.append(self.hand_rock)
-        self.hand_paper = ComputerHand(screen, "assets/images/hand-paper.png", 200, -500, 240, 500)
+        self.hand_paper = ComputerHand(screen, hand_paper_image, 200, -500, 240, 500)
         self.components.append(self.hand_paper)
-        self.hand_scissors = ComputerHand(screen, "assets/images/hand-scissors.png", 200, -500, 240, 500)
+        self.hand_scissors = ComputerHand(screen, hand_scissors_image, 200, -500, 240, 500)
         self.components.append(self.hand_scissors)
 
-        bg_music.play()
+        bg_music.play(-1)
 
     def click_button(self, user_select: GameSelect):
         tap_sound.play()

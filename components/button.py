@@ -6,9 +6,8 @@ from components.component_base import ComponentBase
 
 
 class Button(ComponentBase):
-    def __init__(self, screen: Surface | SurfaceType, image_path: str, x: int, y: int, w: int, h: int):
+    def __init__(self, screen: Surface | SurfaceType, image: Surface | SurfaceType, x: int, y: int, w: int, h: int):
         super().__init__(screen)
-        image = pygame.image.load(image_path)
         self.image = pygame.transform.scale(image, (w, h))
         self.rect = pygame.Rect(x, y, w, h)
         self.x = x
