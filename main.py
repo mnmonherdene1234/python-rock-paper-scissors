@@ -1,24 +1,25 @@
 import pygame
 import sys
-from images import background_image, rock_button, paper_button, scissors_button
+import scenes.scene_manager as sm
+from scenes.game_scene import GameScene
 
 pygame.init()
 
 screen = pygame.display.set_mode((600, 600))
+pygame.display.set_caption("Rock, Paper, Scissors Game")
 
 running = True
+sm.screen = screen
+sm.scene = GameScene(screen)
 
 while running:
     for event in pygame.event.get():
+        sm.event(event)
         if event.type == pygame.QUIT:
             running = False
 
-    screen.fill((255, 255, 255))
-    screen.blit(background_image, (0, 0))
-    screen.blit(rock_button, (100, 500))
-    screen.blit(paper_button, (200, 500))
-    screen.blit(scissors_button, (300, 500))
-    pygame.display.flip()
+    sm.update()
+    pygame.display.update()
 
 pygame.quit()
 sys.exit()
