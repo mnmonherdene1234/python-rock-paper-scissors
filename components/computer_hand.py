@@ -10,7 +10,7 @@ class ComputerHand(Image):
         self.__is_moving = False
         self.__is_moving_back = False
         self.__initial_y = y
-        self.__speed = 3
+        self.__speed = 5
 
     def move(self):
         if not self.__is_moving:
@@ -23,6 +23,7 @@ class ComputerHand(Image):
 
             if self.y < self.__initial_y:
                 self.__is_moving = False
+                self.__is_moving_back = False
                 self.y = self.__initial_y
 
             if self.__is_moving_back:
