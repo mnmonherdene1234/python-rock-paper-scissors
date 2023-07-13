@@ -7,6 +7,7 @@ from assets.sounds import bg_music, tap_sound, correct_guess_sound, wrong_guess_
 from components.background_image import BackgroundImage
 from components.button import Button
 from components.computer_hand import ComputerHand
+from components.text import Text
 from scenes.scene_base import SceneBase
 from assets.images import background_image, rock_button_image, paper_button_image, scissors_button_image, \
     hand_paper_image, hand_scissors_image, hand_rock_image
@@ -21,7 +22,7 @@ class GameSelect(Enum):
 class GameScene(SceneBase):
     def __init__(self, screen: Surface | SurfaceType):
         super().__init__(screen)
-        self.is_selected = False
+        self.score = 0
 
         background = BackgroundImage(screen, background_image)
         self.components.append(background)
@@ -52,34 +53,44 @@ class GameScene(SceneBase):
 
         bg_music.play(-1)
 
+        self.score_text = Text(screen, "", 10, 10, (255, 255, 255), 48)
+        self.components.append(self.score_text)
+
     def click_button(self, user_select: GameSelect):
         tap_sound.play()
 
-        if not self.is_selected:
-            computer_select = GameSelect(randint(1, 3))
+        computer_select = GameSelect(randint(1, 3))
 
-            if computer_select == GameSelect.Rock:
-                self.hand_rock.move()
-            elif computer_select == GameSelect.Paper:
-                self.hand_paper.move()
-            elif computer_select == GameSelect.Scissors:
-                self.hand_scissors.move()
+        if computer_select == GameSelect.Rock:
+            self.hand_rock.move()
+        elif computer_select == GameSelect.Paper:
+            self.hand_paper.move()
+        elif computer_select == GameSelect.Scissors:
+            self.hand_scissors.move()
 
-            if user_select == GameSelect.Rock and computer_select == GameSelect.Rock:
-                correct_guess_sound.play()
-            elif user_select == GameSelect.Rock and computer_select == GameSelect.Paper:
-                wrong_guess_sound.play()
-            elif user_select == GameSelect.Rock and computer_select == GameSelect.Scissors:
-                correct_guess_sound.play()
-            elif user_select == GameSelect.Paper and computer_select == GameSelect.Rock:
-                correct_guess_sound.play()
-            elif user_select == GameSelect.Paper and computer_select == GameSelect.Paper:
-                correct_guess_sound.play()
-            elif user_select == GameSelect.Paper and computer_select == GameSelect.Scissors:
-                wrong_guess_sound.play()
-            elif user_select == GameSelect.Scissors and computer_select == GameSelect.Rock:
-                wrong_guess_sound.play()
-            elif user_select == GameSelect.Scissors and computer_select == GameSelect.Paper:
-                correct_guess_sound.play()
-            elif user_select == GameSelect.Scissors and computer_select == GameSelect.Scissors:
-                correct_guess_sound.play()
+        if user_select == GameSelect.Rock and computer_select == GameSelect.Rock:
+            correct_guess_sound.play()
+        elif user_select == GameSelect.Rock and computer_select == GameSelect.Paper:
+            wrong_guess_sound.play()
+            self.score -= 1
+        elif user_select == GameSelect.Rock and computer_select == GameSelect.Scissors:
+            correct_guess_sound.play()
+            self.score += 1
+        elif user_select == GameSelect.Paper and computer_select == GameSelect.Rock:
+            correct_guess_sound.play()
+            self.score += 1
+        elif user_select == GameSelect.Paper and computer_select == GameSelect.Paper:
+            correct_guess_sound.play()
+        elif user_select == GameSelect.Paper and computer_select == GameSelect.Scissors:
+            wrong_guess_sound.play()
+            self.score -= 1
+        elif user_select == GameSelect.Scissors and computer_select == GameSelect.Rock:
+            wrong_guess_sound.play()
+            self.score -= 1
+        elif user_select == GameSelect.Scissors and computer_select == GameSelect.Paper:
+            correct_guess_sound.play()
+            self.score += 1
+        elif user_select == GameSelect.Scissors and computer_select == GameSelect.Scissors:
+            correct_guess_sound.play()
+
+        self.score_text.text = f"Score: {self.score}"
