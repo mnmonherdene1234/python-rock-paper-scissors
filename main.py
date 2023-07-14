@@ -8,7 +8,7 @@ from assets.images import game_icon
 async def main():
     pygame.init()
 
-    screen = pygame.display.set_mode((600, 600))
+    screen = pygame.display.set_mode((600, 600), pygame.FULLSCREEN)
     pygame.display.set_caption("Rock, Paper, Scissors Game")
     pygame.display.set_icon(game_icon)
 
